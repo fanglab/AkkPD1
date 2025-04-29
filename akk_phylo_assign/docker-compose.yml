@@ -1,0 +1,10 @@
+version: '3'
+services:
+  akk_pipeline:
+    build: .
+    image: akk_pipeline:latest
+    volumes:
+      - ./data:/pipeline/data
+    working_dir: /pipeline
+    tty: true
+
