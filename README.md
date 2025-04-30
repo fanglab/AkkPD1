@@ -163,7 +163,7 @@ This module provides a containerized workflow for training random forest models 
 ### 1. Pull the Docker Image
 
 ```bash
-docker pull fannimi2001/akk_gene_antipd1_ml:v1.0
+docker pull fannimi2001/akk_gene_antipd1_ml:v1.1
 ```
 
 ### 2. Prepare your raw data and example data
