@@ -50,7 +50,7 @@ data$Age <- as.numeric(data$Age)
 # ---------------------------
 # 3. Training/Testing Split
 # ---------------------------
-gene_start_col <- which(colnames(data) == "A0A139TLF2")
+gene_start_col <- which(colnames(data) == "Gene_1")
 data[, gene_start_col:ncol(data)] <- lapply(data[, gene_start_col:ncol(data)], factor)
 
 if ("High_Akk_in_C3 (Yes or No)" %in% colnames(data)) {

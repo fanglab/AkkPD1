@@ -171,9 +171,9 @@ docker pull fannimi2001/akk_gene_antipd1_ml:v1.0
 Download the pre-generated example dataset
 
 ```shell
-curl -L -o  All_Patients_Strict_Akk_Gene.csv "https://www.dropbox.com/scl/fi/rrh55hwqe9ujrukta52p5/All_Patients_Strict_Akk_Gene_update.csv?rlkey=ri0fmb3sgrk77bu3cu073d9lo&st=rrktb20i&dl=0"
+curl -L -o  All_Patients_Strict_Akk_Gene.csv "https://www.dropbox.com/scl/fi/p94yliuzoasjppeba62ts/All_Patients_Strict_Akk_Gene.csv?rlkey=ya4dbbrnmgisuzy26uzpqhn8z&st=52gfkq4m&dl=0"
 
-curl -L -o  Importance_score.csv "https://www.dropbox.com/scl/fi/wbxkrfm2l577g23hmed6n/important_gene_from_WO_HighAkk_WO_LIGNE.csv?rlkey=mm2oxq64gaut24y7qorqwgj8c&st=v29qrfap&dl=0"
+curl -L -o  Importance_score.csv "https://www.dropbox.com/scl/fi/mzlnvw6yu7ivpy0ac9lw5/Importance_score.csv?rlkey=eeu7nlvo1twufzrhtydpy9qw4&st=j8auupad&dl=0"
 ```
 
 
@@ -276,7 +276,9 @@ This quick test mode is designed to verify pipeline functionality without full r
 
 ---
 
+## Citations
 
+Peixin Fan, Mi Ni, Yu Fan, Magdalena Ksiezarek, Gang Fang. Predictive power of different *Akkermansia* phylogroups in clinical response to PD-1 blockade against non-small cell lung cancer. bioRxiv 2024.08.21.608814; doi: https://doi.org/10.1101/2024.08.21.608814
 
 
 
