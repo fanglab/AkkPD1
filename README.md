@@ -171,7 +171,7 @@ docker pull fannimi2001/akk_gene_antipd1_ml:v1.0
 Download the pre-generated example dataset
 
 ```shell
-curl -L -o  All_Patients_Strict_Akk_Gene.csv "://www.dropbox.com/scl/fi/zdzwv9y020kxk757y7x1e/All_Patients_Strict_Akk_Gene.csv?rlkey=g0coux0n6nhsu7pqdq73qt93x&st=xjd0qys0&dl=0"
+curl -L -o  All_Patients_Strict_Akk_Gene.csv "https://www.dropbox.com/scl/fi/zdzwv9y020kxk757y7x1e/All_Patients_Strict_Akk_Gene.csv?rlkey=g0coux0n6nhsu7pqdq73qt93x&st=xjd0qys0&dl=0"
 
 curl -L -o  Importance_score.csv "https://www.dropbox.com/scl/fi/3llm8jt9rrx5lpb63uqei/Importance_score.csv?rlkey=l5a2jeoqev4uw50cbr8uhrpsh&st=pcp1hi81&dl=0"
 ```
