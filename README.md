@@ -42,7 +42,7 @@ rm kneaddata_db.zip
 ### 4. Download the PanPhlAn database
 
 ```bash
-curl -L -o panphlan_db.zip "https://www.dropbox.com/scl/fo/py1hi49h1650vpvodl8op/AIQf4LETg5NuvLEFBEjpIgg?rlkey=tf7z35ti9lr9ikqhh5dw2topf&st=b2g4am9j&dl=1"
+curl -L -o panphlan_db.zip "https://www.dropbox.com/scl/fo/py1hi49h1650vpvodl8op/AIQf4LETg5NuvLEFBEjpIgg?rlkey=tf7z35ti9lr9ikqhh5dw2topf&st=qpxi6lc4&dl=0"
 unzip panphlan_db.zip -d /tmp/akk_pipeline_db/
 rm panphlan_db.zip
 ```
