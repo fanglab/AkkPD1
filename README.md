@@ -187,28 +187,28 @@ curl -L -o  Importance_score.csv "https://www.dropbox.com/scl/fi/3llm8jt9rrx5lpb
 **Model 1: Training dataset: C1+C2+C3 cohort without High Akk samples**; **Test dataset:C4 cohort**
 
 ```bash
-docker run --rm -v "$PWD":/data rf_model_akk_pipeline \
+docker run --rm -v "$PWD":/data fannimi2001/akk_gene_antipd1_ml:v1.1 \
   --input /data/All_Patients_Strict_Akk_Gene.csv --mode ML1 --threads 8
 ```
 
 **Model 2: Training dataset: C1+C2+C3 cohort without High Akk and LIGNE=1 samples ; Test dataset:C4 cohort without LIGNE=1 sample**
 
 ```bash
-docker run --rm -v "$PWD":/data rf_model_akk_pipeline \
+docker run --rm -v "$PWD":/data fannimi2001/akk_gene_antipd1_ml:v1.1 \
   --input /data/All_Patients_Strict_Akk_Gene.csv --mode ML2 --threads 8
 ```
 
 **Model 3: Training dataset: C1+C2+C3+C4 cohort without High Akk samples; No external test, evaluated using LOOCV**
 
 ```bash
-docker run --rm -v "$PWD":/data rf_model_akk_pipeline \
+docker run --rm -v "$PWD":/data fannimi2001/akk_gene_antipd1_ml:v1.1 \
   --input /data/All_Patients_Strict_Akk_Gene.csv --mode ML3 --threads 8
 ```
 
 **Quick demo**
 
 ```bash
-docker run --rm -v "$PWD":/data rf_model_akk_pipeline \
+docker run --rm -v "$PWD":/data fannimi2001/akk_gene_antipd1_ml:v1.1 \
   --input /data/All_Patients_Strict_Akk_Gene.csv --mode ML1 --threads 8 --test
 ```
 
@@ -236,6 +236,8 @@ singularity run --bind "$PWD":/data rf_model_pipeline.sif \
 singularity run --bind "$PWD":/data rf_model_pipeline.sif \
   --input /data/All_Patients_Strict_Akk_Gene.csv --mode ML3 --threads 8
 ```
+
+> 📂 Output files are saved in current working directory.
 
 
 
