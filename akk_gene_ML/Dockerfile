@@ -19,5 +19,4 @@ RUN R -e "install.packages(c('caret', 'readr', 'dplyr', 'MLeval', 'optparse', 'p
 RUN R -e "if (!requireNamespace('BiocManager', quietly=TRUE)) install.packages('BiocManager', repos='http://cran.rstudio.com/'); BiocManager::install('MLeval')"
 
 COPY rf_model_training_pipeline.R /app/rf_model_training_pipeline.R
-WORKDIR /app
-ENTRYPOINT ["Rscript", "rf_model_training_pipeline.R"]
+ENTRYPOINT ["Rscript", "/app/rf_model_training_pipeline.R"]
