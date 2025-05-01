@@ -107,7 +107,6 @@ bash akk_phylo_assign/run_akk_pipeline.sh
 
 > 📂 Output files are saved in: `/tmp/akk_pipeline_data`
 
----
 
 ---
 
@@ -153,6 +152,7 @@ Tested (non-reference) samples are highlighted in black, with their sample names
 
 This module provides a containerized workflow for training random forest models using Akkermansia gene features and metadata to predict anti-PD1 response.
 
+---
 ##  📋 Requirements
 
 - Docker installed (or Singularity for HPC clusters)
@@ -160,6 +160,7 @@ This module provides a containerized workflow for training random forest models 
 - Internet access for database downloads and SRA retrieval
 - Reformatted CSV file combining metadata and gene presence (wide format)
 
+---
 ## 🚀 Quick Start Guide
 
 ### 1. Pull the Docker Image
@@ -238,7 +239,7 @@ singularity run --bind "$PWD":/data rf_model_pipeline.sif \
 ```
 
 > 📂 Output files are saved in current working directory.
-
+---
 
 
 ## 🔬 Pipeline Workflow and Example Results
@@ -249,7 +250,7 @@ singularity run --bind "$PWD":/data rf_model_pipeline.sif \
 - Evaluate models with ROC curves and calculate AUC
 - Save trained models and feature importance rankings
 - Summarize model performance (best AUC and tuning parameters)
-
+---
 ### Example Output
 
 | Output File                     | Description                                                  |
