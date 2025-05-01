@@ -63,7 +63,7 @@ panphlan_profiling.py \
 # Step 5: Phylogroup assignment
 echo "í ¼í¼¿ Running phylogroup assignment..."
 Rscript akk_phylo_assign/assign_phylogroups.R \
-    /pipeline/data/result_gene_presence_absence.csv \
+    /pipeline/data/result_gene_presence_absence.tsv \
     /pipeline/data/phylogroup \
     4
 
