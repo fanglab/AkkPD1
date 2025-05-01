@@ -1,3 +1,5 @@
+This tool is provided as part of the manuscript "[Predictive power of different *Akkermansia* phylogroups in clinical response to PD-1 blockade against non-small cell lung cancer](https://doi.org/10.1101/2024.08.21.608814)"  and provides two primary modules.
+
 
 # 🧬 Module 1: Akk Phylo Assign Pipeline
 
