@@ -228,14 +228,22 @@ singularity build rf_model_pipeline.sif docker://fannimi2001/akk_gene_antipd1_ml
 
 ### Run and execute
 ```bash
+**Model 1**
 singularity run --bind "$PWD":/data rf_model_pipeline.sif \
   --input /data/All_Patients_Strict_Akk_Gene.csv --mode ML1 --threads 8
 
+**Model 2**
 singularity run --bind "$PWD":/data rf_model_pipeline.sif \
   --input /data/All_Patients_Strict_Akk_Gene.csv --mode ML2 --threads 8
 
+**Model 3**
 singularity run --bind "$PWD":/data rf_model_pipeline.sif \
   --input /data/All_Patients_Strict_Akk_Gene.csv --mode ML3 --threads 8
+
+**Quick demo**
+singularity run --bind "$PWD":/data rf_model_pipeline.sif \
+  --input /data/All_Patients_Strict_Akk_Gene.csv --mode ML1 --threads 8 --test
+
 ```
 
 > 📂 Output files are saved in current working directory.

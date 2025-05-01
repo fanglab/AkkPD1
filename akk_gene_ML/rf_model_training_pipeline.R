@@ -110,7 +110,7 @@ if (opt$test) {
   stopCluster(cl)
 
   # Save model
-  saveRDS(model, paste0("fit_", opt$mode, "_TL50_test.rds"))
+  saveRDS(model, paste0("/data/fit_", opt$mode, "_TL50_test.rds"))
 
   # Generate ROC curve from LOOCV predictions
   # Get best model tuning parameters
@@ -132,7 +132,7 @@ if (opt$test) {
   auc_value <- pROC::auc(roc_obj)
   
   # Save ROC plot
-  png(paste0("demo_ROC_curve_", opt$mode, ".png"), width = 800, height = 600)
+  png(paste0("/data/demo_ROC_curve_", opt$mode, ".png"), width = 800, height = 600)
   plot.roc(roc_obj, main = paste("Demo ROC Curve (AUC =", round(auc_value, 3), ")"),
            col = "#1c61b6", lwd = 3)
   dev.off()
