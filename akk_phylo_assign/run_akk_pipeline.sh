@@ -13,7 +13,7 @@ PANGENOME_IDX=/pipeline/DB/Akkermansia_muciniphila
 mkdir -p ${RAW_DIR} ${KNEADDATA_DIR} ${MAPPING_DIR}
 
 # Step 1: Download raw reads
-if [ -z "$(ls test/*.fastq* 2>/dev/null)" ]; then
+if [ -z "$(ls ${RAW_DIR}/*.fastq* 2>/dev/null)" ]; then
   echo "❌ ERROR:raw data not found."
   exit 1
 fi
