@@ -164,7 +164,7 @@ for (tl in tune_lengths) {
                  method = "rf", trControl = ctrl, tuneLength = tl)
 
   models[[paste0("TL", tl)]] <- model
-  saveRDS(model, paste0("fit_", opt$mode, "_TL", tl, ".rds"))
+  saveRDS(model, paste0("/data/fit_", opt$mode, "_TL", tl, ".rds"))
 
   if (opt$mode == "ML3") {
     results[[paste0("TL", tl)]] <- evalm(model)
@@ -202,14 +202,14 @@ if (opt$mode == "ML3") {
 # 7. Save Full Results
 # ---------------------------
 importance <- varImp(best_model)$importance
-write.csv(importance, paste0("Importance_score_", opt$mode, "_", best_tl, ".csv"))
+write.csv(importance, paste0("/data/Importance_score_", opt$mode, "_", best_tl, ".csv"))
 
 summary_df <- data.frame(
   Mode = opt$mode,
   Best_TuneLength = best_tl,
   Best_AUC = best_auc
 )
-write.csv(summary_df, paste0("model_summary_", opt$mode, ".csv"), row.names = FALSE)
+write.csv(summary_df, paste0("/data/model_summary_", opt$mode, ".csv"), row.names = FALSE)
 print(summary_df)
 
-cat("\n==== Full Training Run Finished Successfully ====\n")
+cat("\n==== Full Training Finished Successfully ====\n")
