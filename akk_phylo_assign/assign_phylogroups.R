@@ -17,10 +17,24 @@ output_prefix <- args[2]           # e.g., "/pipeline/data/phylogroup"
 k <- ifelse(length(args) >= 3, as.numeric(args[3]), 4)  # Default 4 clusters
 
 # ---------------------------
-# 1. Load and prepare data
+# 1a. Load and prepare data
 # ---------------------------
 gene_data <- read.table(input_file, row.names = 1, check.names = FALSE)
 gene_matrix <- t(as.matrix(gene_data))
+
+# ---------------------------
+# 1b. Load reference metadata
+# ---------------------------
+ref_metadata_file <- paste0(dirname(input_file), "/reference_phylogroup_metadata.csv")
+ref_metadata <- read.csv(ref_metadata_file, stringsAsFactors = FALSE)
+
+# Ensure columns are named correctly
+if (!all(c("GenomeID", "Phylogroup") %in% colnames(ref_metadata))) {
+  stop("Reference metadata must have columns: GenomeID, Phylogroup")
+}
+
+reference_map <- setNames(ref_metadata$Phylogroup, ref_metadata$GenomeID)
+
 
 # ---------------------------
 # 2. Bray-Curtis distance and clustering

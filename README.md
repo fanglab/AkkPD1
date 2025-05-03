@@ -55,6 +55,9 @@ Download the pre-generated example dataset
 
 ```shell
 curl -L -o  /tmp/akk_pipeline_data/example_gene_presence_absence.csv "https://www.dropbox.com/scl/fi/haq847ktwwqjqfnxjwwya/example_gene_presence_absence.tsv?rlkey=yygl3w5vo7roh5458i8iiadh3&st=9xvg3te5&dl=0"
+
+curl -L -o  /tmp/akk_pipeline_data/reference_phylogroup_metadata.csv "https://www.dropbox.com/scl/fi/d6y08jy9v5qkei49eqy1q/reference_phylogroup_metadata.csv?rlkey=83jyru2zbijfw0raua2rfyckw&st=r40kh8dp&dl=0"
+
 ```
 
 
