@@ -12,7 +12,7 @@ if (length(args) < 2) {
   stop("Usage: Rscript script.R <input_matrix.csv> <output_prefix> [k_clusters]\n")
 }
 
-input_file <- args[1]              # e.g., "/pipeline/data/result_gene_presence_absence.csv"
+input_file <- args[1]              # e.g., "/pipeline/data/result_gene_presence_absence.tsv"
 output_prefix <- args[2]           # e.g., "/pipeline/data/phylogroup"
 k <- ifelse(length(args) >= 3, as.numeric(args[3]), 4)  # Default 4 clusters
 
@@ -27,6 +27,7 @@ gene_matrix <- t(as.matrix(gene_data))
 # ---------------------------
 ref_metadata_file <- paste0(dirname(input_file), "/reference_phylogroup_metadata.csv")
 ref_metadata <- read.csv(ref_metadata_file, stringsAsFactors = FALSE)
+ref_metadata$GenomeID <- paste0("REF_", ref_metadata$GenomeID)
 
 # Ensure columns are named correctly
 if (!all(c("GenomeID", "Phylogroup") %in% colnames(ref_metadata))) {
@@ -40,7 +41,7 @@ reference_map <- setNames(ref_metadata$Phylogroup, ref_metadata$GenomeID)
 # 2. Bray-Curtis distance and clustering
 # ---------------------------
 dist_matrix <- vegdist(gene_matrix, method = "bray")
-hc <- hclust(dist_matrix, method = "ward.D2")
+hc <- hclust(dist_matrix, method = "complete") #change the method to "complete"
 
 # ---------------------------
 # 3. Cut into k clusters
@@ -50,13 +51,6 @@ raw_clusters <- cutree(hc, k = k)
 # ---------------------------
 # 4. Assign Phylogroup based on reference samples
 # ---------------------------
-# Define known references
-reference_map <- list(
-  "REF_GCA_000020225" = "AmIa",
-  "REF_GCA_002884915" = "AmIII",
-  "REF_GCA_002884995" = "AmII",
-  "REF_GCA_002885155" = "AmIb"
-)
 
 # Initialize phylogroup assignment
 phylogroups <- rep(NA, length(raw_clusters))
@@ -66,15 +60,22 @@ names(phylogroups) <- names(raw_clusters)
 for (cluster_id in unique(raw_clusters)) {
   samples_in_cluster <- names(raw_clusters)[raw_clusters == cluster_id]
   
-  matched_refs <- intersect(samples_in_cluster, names(reference_map))
+  # Keep reference phylogroup as-is
+  known_refs <- intersect(samples_in_cluster, names(reference_map))
+  unknown_samples <- setdiff(samples_in_cluster, names(reference_map))
   
-  if (length(matched_refs) > 0) {
-    assigned_group <- reference_map[[matched_refs[1]]]
-    phylogroups[samples_in_cluster] <- assigned_group
+  if (length(known_refs) > 0) {
+    # Get majority phylogroup from known references
+    assigned_group <- names(sort(table(reference_map[known_refs]), decreasing = TRUE))[1]
+    # Assign to unknown samples only
+    phylogroups[unknown_samples] <- assigned_group
   } else {
-    phylogroups[samples_in_cluster] <- paste0("UnknownCluster", cluster_id)
+    # No reference in this cluster → mark all unknowns
+    phylogroups[unknown_samples] <- paste0("UnknownCluster", cluster_id)
   }
 }
+# Now assign the known references directly (if not already done)
+phylogroups[names(reference_map)] <- reference_map
 
 # ---------------------------
 # 5. Save phylogroup assignment
@@ -84,8 +85,6 @@ cluster_df <- data.frame(SampleID = names(raw_clusters),
                          Phylogroup = phylogroups)
 cluster_df <- cluster_df[order(cluster_df$Phylogroup, cluster_df$SampleID), ]
 
-write.csv(cluster_df, paste0(output_prefix, "_assignments.csv"),
-          row.names = FALSE, quote = FALSE)
 
 # ---------------------------
 # 6. Colored dendrogram (only!)
@@ -120,6 +119,7 @@ pcoa_plot <- ggplot(pcoa_df, aes(x = PCoA1, y = PCoA2)) +
       "AmIb" = "yellow",
       "AmII" = "blue",
       "AmIII" = "green",
+	  "AmIV" = "purple",
       "Tested" = "black"  # <- tested samples always black point
     )
   ) +
@@ -157,6 +157,42 @@ pcoa_df_amI$Label <- sub("(\\.[^.]+)+$", "", pcoa_df_amI$Label)
 pcoa_df_amI$PointColor <- ifelse(grepl("^REF", pcoa_df_amI$SampleID), pcoa_df_amI$Phylogroup, "Tested")
 
 
+# Step 1: Get coordinates of reference samples
+ref_points <- pcoa_df_amI[pcoa_df_amI$SampleID %in% names(reference_map), ]
+ref_points$Phylogroup <- reference_map[ref_points$SampleID]
+
+# Step 2: Compute centroids of AmIa and AmIb
+centroid_AmIa <- colMeans(ref_points[ref_points$Phylogroup == "AmIa", c("PCoA1", "PCoA2")], na.rm = TRUE)
+centroid_AmIb <- colMeans(ref_points[ref_points$Phylogroup == "AmIb", c("PCoA1", "PCoA2")], na.rm = TRUE)
+
+# Step 3: Assign unknowns based on 2D distance to centroids
+unknown_samples <- pcoa_df_amI$SampleID[!(pcoa_df_amI$SampleID %in% names(reference_map))]
+
+for (sid in unknown_samples) {
+  coords <- pcoa_df_amI[pcoa_df_amI$SampleID == sid, c("PCoA1", "PCoA2")]
+  
+  if (any(is.na(coords))) {
+    phylogroups[sid] <- "Unassigned"
+    next
+  }
+
+  dist_to_AmIa <- sqrt(sum((coords - centroid_AmIa)^2))
+  dist_to_AmIb <- sqrt(sum((coords - centroid_AmIb)^2))
+
+  phylogroups[sid] <- ifelse(dist_to_AmIa < dist_to_AmIb, "AmIa", "AmIb")
+}
+
+# Overwrite and export the updated phylogroup assignments
+cluster_df$Phylogroup <- phylogroups[cluster_df$SampleID]
+
+write.csv(
+  cluster_df,
+  paste0(output_prefix, "_assignments.csv"),  # same as before
+  row.names = FALSE,
+  quote = FALSE
+)
+
+
 # Plot
 pcoa_plot_amI <- ggplot(pcoa_df_amI, aes(x = PCoA1, y = PCoA2)) +
   geom_point(aes(color = PointColor), size = 3) +
@@ -175,6 +211,8 @@ pcoa_plot_amI <- ggplot(pcoa_df_amI, aes(x = PCoA1, y = PCoA2)) +
   theme(legend.title = element_blank())
 
 ggsave(paste0(output_prefix, "_AmI_sub_PCoA_plot.png"), plot = pcoa_plot_amI, width = 8, height = 6)
+
+
 
 # ---------------------------
 # Done!

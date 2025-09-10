@@ -27,15 +27,15 @@ docker pull fannimi2001/akk_phylo_assign:v1.0
 ### 2. Create required folders
 
 ```bash
-mkdir -p /tmp/akk_pipeline_data/rawdata
-mkdir -p /tmp/akk_pipeline_db
+mkdir -p ./tmp/akk_pipeline_data/rawdata
+mkdir -p ./tmp/akk_pipeline_db
 ```
 
 ### 3. Download the Kneaddata database
 
 ```bash
 curl -L -o kneaddata_db.zip "https://www.dropbox.com/scl/fo/h0oa035ba5qejq73m5n3y/AKyp1oqcLAuwtSxszh7N2o8?rlkey=vvhmbwtgiln1e0i9y9nwyuhus&st=w6z373oz&dl=1"
-unzip kneaddata_db.zip -d /tmp/akk_pipeline_db/
+unzip kneaddata_db.zip -d ./tmp/akk_pipeline_db/
 rm kneaddata_db.zip
 ```
 
@@ -43,20 +43,20 @@ rm kneaddata_db.zip
 
 ```bash
 curl -L -o panphlan_db.zip "https://www.dropbox.com/scl/fo/py1hi49h1650vpvodl8op/AIQf4LETg5NuvLEFBEjpIgg?rlkey=tf7z35ti9lr9ikqhh5dw2topf&st=qpxi6lc4&dl=0"
-unzip panphlan_db.zip -d /tmp/akk_pipeline_db/
+unzip panphlan_db.zip -d ./tmp/akk_pipeline_db/
 rm panphlan_db.zip
 ```
 
 ### 5. Prepare your raw data and example data
 
-Put raw data (fastq file) in /tmp/akk_pipeline_data/rawdata
+Put raw data (fastq file) in ./tmp/akk_pipeline_data/rawdata
 
 Download the pre-generated example dataset
 
 ```shell
-curl -L -o  /tmp/akk_pipeline_data/example_gene_presence_absence.csv "https://www.dropbox.com/scl/fi/haq847ktwwqjqfnxjwwya/example_gene_presence_absence.tsv?rlkey=yygl3w5vo7roh5458i8iiadh3&st=9xvg3te5&dl=0"
+curl -L -o  ./tmp/akk_pipeline_data/example_gene_presence_absence.tsv "https://www.dropbox.com/scl/fi/haq847ktwwqjqfnxjwwya/example_gene_presence_absence.tsv?rlkey=yygl3w5vo7roh5458i8iiadh3&st=9xvg3te5&dl=0"
 
-curl -L -o  /tmp/akk_pipeline_data/reference_phylogroup_metadata.csv "https://www.dropbox.com/scl/fi/d6y08jy9v5qkei49eqy1q/reference_phylogroup_metadata.csv?rlkey=83jyru2zbijfw0raua2rfyckw&st=r40kh8dp&dl=0"
+curl -L -o  ./tmp/akk_pipeline_data/reference_phylogroup_metadata.csv "https://www.dropbox.com/scl/fi/d6y08jy9v5qkei49eqy1q/reference_phylogroup_metadata.csv?rlkey=83jyru2zbijfw0raua2rfyckw&st=r40kh8dp&dl=0"
 
 ```
 
@@ -70,8 +70,8 @@ You can run the pipeline with either Docker or Singularity.
 
 ```bash
 docker run --rm -it \
-  -v /tmp/akk_pipeline_data:/pipeline/data \
-  -v /tmp/akk_pipeline_db:/pipeline/DB \
+  -v ./tmp/akk_pipeline_data:/pipeline/data \
+  -v ./tmp/akk_pipeline_db:/pipeline/DB \
   fannimi2001/akk_phylo_assign:v1.0
 ```
 
@@ -97,8 +97,8 @@ singularity build akk_phylo_assign.sif docker://fannimi2001/akk_phylo_assign:v1.
 
 ```bash
 singularity shell \
-  -B /tmp/akk_pipeline_data:/pipeline/data \
-  -B /tmp/akk_pipeline_db:/pipeline/DB \
+  -B ./tmp/akk_pipeline_data:/pipeline/data \
+  -B ./tmp/akk_pipeline_db:/pipeline/DB \
   akk_phylo_assign.sif
 
 source activate akk_pipeline
@@ -108,7 +108,7 @@ bash akk_phylo_assign/run_tests.sh
 bash akk_phylo_assign/run_akk_pipeline.sh
 ```
 
-> 📂 Output files are saved in: `/tmp/akk_pipeline_data`
+> 📂 Output files are saved in: `./tmp/akk_pipeline_data`
 
 
 ---
@@ -143,7 +143,7 @@ Tested (non-reference) samples are highlighted in black, with their sample names
 - Kneaddata DB must go to `/pipeline/DB/kneaddata_db`
 - PanPhlAn DB must go to `/pipeline/DB/panphlan_db`
 - The Docker image does not include database files.
-- All inputs/outputs are stored in the mounted `/tmp/akk_pipeline_data` folder.
+- All inputs/outputs are stored in the mounted `./tmp/akk_pipeline_data` folder.
 
 ---
 
