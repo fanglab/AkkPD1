@@ -27,6 +27,7 @@ do
     -db ${DB_DIR} \
     -o ${KNEADDATA_DIR} \
     -i ${RAW_DIR}/${sample}.fastq \
+	-t 16 \
     --trimmomatic /opt/conda/envs/akk_pipeline/share/trimmomatic-0.39-2
   
   # Move cleaned file to a standardized name
@@ -46,7 +47,8 @@ do
     -p ${PANGENOME_TSV} \
     --indexes ${PANGENOME_IDX} \
     -i ${KNEADDATA_DIR}/${sample}_kneaddata.fastq \
-    -o ${MAPPING_DIR}/${sample}.csv
+    -o ${MAPPING_DIR}/${sample}.csv \
+	--nproc 16
 done
 
 # Step 4: Profile gene presence/absence
